@@ -1,0 +1,83 @@
+name: PR Checks
+
+on:
+  pull_request:
+    types: [ labeled, unlabeled, reopened, synchronize ]
+    branches:
+      - main
+      - 'release*'
+      - develop
+  workflow_dispatch:
+
+# Cancel previous jobs within the same workflow and branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  UB_TOOLS_URL: ${{ secrets.UB_TOOLS_URL }}
+
+jobs:
+  static_analysis:
+    runs-on: [ self-hosted, android ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Prepare environment
+        run: |
+          export GRADLE_USER_HOME=`pwd`/.gradle
+          chmod +x ./gradlew
+      - name: Static Analysis
+        run: |
+          bundle install
+          ./gradlew ktlint
+          ./gradlew detekt
+
+  build_android:
+    if: ${{ (contains(github.event.pull_request.labels.*.name, 'android')) || (contains(github.event.pull_request.labels.*.name, 'common')) }}
+    runs-on: [ self-hosted, android ]
+    env:
+      ANDROID_INVENTORY_STORE_PASSWORD: ${{ secrets.ANDROID_INVENTORY_STORE_PASSWORD }}
+      ANDROID_INVENTORY_KEY_PASSWORD: ${{ secrets.ANDROID_INVENTORY_KEY_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Prepare environment
+        run: |
+          export GRADLE_USER_HOME=`pwd`/.gradle
+          chmod +x ./gradlew
+      - name: Assemble
+        run: |
+          ./gradlew :composeApp:assemble --stacktrace
+
+  build_web:
+    if: ${{ (contains(github.event.pull_request.labels.*.name, 'web')) || (contains(github.event.pull_request.labels.*.name, 'common')) }}
+    runs-on: [ self-hosted, android ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build web app
+        run: |
+          echo "Kobweb version"
+          kobweb version
+          
+          ./gradlew kobwebExport -PkobwebReuseServer=false -PkobwebEnv=DEV -PkobwebRunLayout=KOBWEB -PkobwebBuildTarget=RELEASE -PkobwebExportLayout=STATIC --stacktrace
+          ./gradlew kobwebStop
+
+  build_server:
+    if: ${{ (contains(github.event.pull_request.labels.*.name, 'server')) || (contains(github.event.pull_request.labels.*.name, 'common')) }}
+    runs-on: [ self-hosted, android ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build server
+        run: |
+          ./gradlew :server:build
+
+  unit_tests:
+    runs-on: [ self-hosted, android ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Prepare environment
+        run: |
+          export GRADLE_USER_HOME=`pwd`/.gradle
+          chmod +x ./gradlew
+      - name: Unit tests
+        run: |
+          ./gradlew test --stacktrace

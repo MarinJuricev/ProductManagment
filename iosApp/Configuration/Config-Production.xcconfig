@@ -1,0 +1,4 @@
+TEAM_ID=TEU2W33Z6N
+BUNDLE_ID=org.product.inventory.MarinJuricevInventory
+APP_NAME=Inventory
+ENV=production

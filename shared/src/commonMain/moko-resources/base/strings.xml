@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="app_name">MarinJuricev inventory</string>
+
+    <string name="auth_text_welcome">Welcome to</string>
+    <string name="auth_text_continue">Continue with</string>
+    <string name="auth_text_login1">Login with </string>
+    <string name="auth_text_login2">Google</string>
+    <string name="auth_text_logout">Logout</string>
+    <string name="auth_text_logout_question">Logout ?</string>
+    <string name="auth_text_logout_action_question">Do you really want to logout ?</string>
+
+    <string name="general_unknown_error_title">Unknown Error</string>
+    <string name="general_retry_error_title">Ooops :[</string>
+    <string name="general_retry_button_text">RETRY</string>
+    <string name="general_unknown_error_message">Please try again later or contact support if the issue persists.</string>
+    <string name="general_ok">Ok</string>
+    <string name="general_minus">-</string>
+    <string name="general_email_validation_error">Please provide valid email address</string>
+    <string name="general_unauthorized_error">Unauthorized action</string>
+    <string name="general_updated">Updated</string>
+    <string name="general_update_failed">Update Failed</string>
+    <string name="general_continue">Continue</string>
+    <string name="general_save">Save</string>
+    <string name="general_previous">Previous</string>
+    <string name="general_delete_question">Delete %s?</string>
+    <string name="general_cancel_question">Cancel %s?</string>
+    <string name="general_delete">Delete</string>
+    <string name="general_cancel">Cancel</string>
+    <string name="general_discard_changes_title">Discard Changes ?</string>
+    <string name="general_discard_changes_message">Are you sure you want to quit without saving ? Your changes will be lost !</string>
+    <string name="general_discard">Discard</string>
+    <string name="general_stay">Stay</string>
+    <string name="general_all">All</string>
+    <string name="general_yes">Yes</string>
+    <string name="general_no_go_back">No, go back!</string>
+    <string name="general_done">Done</string>
+
+    <string name="auth_message_success_title">Authenticated!</string>
+    <string name="auth_message_success_description">You are successfully signed in</string>
+    <string name="auth_message_warning_title">Unsupported domain</string>
+    <string name="auth_message_warning_description">Please log in with MarinJuricev email</string>
+    <string name="auth_message_error_title">Unknown Error</string>
+    <string name="auth_message_invalid_credentials">Invalid credentials!</string>
+    <string name="auth_message_invalid_google_credentials">Invalid Google credentials!</string>
+    <string name="auth_message_error_description">Please try again later or contact support if the issue persists.</string>
+    <string name="auth_logout_button_title">Log out</string>
+
+    <string name="side_menu_test_devices_title">Test devices</string>
+    <string name="side_menu_parking_reservation_title">Parking reservation</string>
+    <string name="side_menu_seat_reservation_title">Seat reservation</string>
+
+    <string name="parking_reservation_new_request_title">New Request</string>
+    <string name="parking_reservation_new_request_late_reservation_message">Parking reservations for tomorrow are not possible after 3:00 PM. Please contact us directly on %s or %s</string>
+    <string name="parking_reservation_new_request_description">Create and submit request for parking slot</string>
+    <string name="parking_reservation_dates">Dates:</string>
+    <string name="parking_reservation_status">Status:</string>
+    <string name="parking_reservation_add_new_date">Add new Date</string>
+    <string name="parking_reservation_user_requests_title">User Requests</string>
+    <string name="parking_reservation_user_requests_description">Manage users requests; Approve, Deny or Cancel them</string>
+    <string name="parking_reservation_crew_management_title">Crew Management</string>
+    <string name="parking_reservation_crew_management_description">Edit users permissions and roles</string>
+    <string name="parking_reservation_my_reservations_title">My Reservations</string>
+    <string name="parking_reservation_my_reservations_description">See your reservation history; cancel
+        reservations</string>
+    <string name="parking_reservation_email_templates_title">Email Templates</string>
+    <string name="parking_reservation_email_templates_description">Edit email templates which will be sent to users</string>
+    <string name="parking_reservation_slots_management_title">Slots Management</string>
+    <string name="parking_reservation_slots_management_description">Edit available slots; Create new or Delete existing</string>
+    <string name="parking_reservation_retry_screen_title">Something went wrong!</string>
+    <string name="parking_reservation_retry_screen_description">We are unable to receive your account data. Ask administrator for more information</string>
+    <string name="parking_reservation_retry_screen_button_text">Retry</string>
+
+    <string name="parking_reservation_new_request_as">Request reservation as:</string>
+    <string name="parking_reservation_new_request_date">Date:</string>
+    <string name="parking_reservation_new_request_additional_notes">Additional notes for admin:</string>
+    <string name="parking_reservation_new_request_additional_notes_placeholder">Write anything you want here</string>
+    <string name="parking_reservation_new_request_submit">Submit</string>
+    <string name="parking_reservation_new_multi_requests_done">Done</string>
+    <string name="parking_reservation_new_request_add_new_date">Add new date</string>
+    <string name="parking_reservation_date_validation_error">Only future dates are allowed</string>
+    <string name="parking_reservation_success">Successfully submitted !</string>
+    <string name="parking_reservation_failure">Parking reservation update failed</string>
+    <string name="parking_reservation_no_free_spaces_error">All parking spaces for the selected date are taken</string>
+    <string name="parking_reservation_missing_parking_spot_data">Please select Garage level and spot</string>
+    <string name="parking_reservation_user_picker_search_placeholder">Search</string>
+    <string name="parking_reservation_multi_request_response_date">Date:</string>
+    <string name="parking_reservation_multi_request_response_status">Status:</string>
+    <string name="parking_reservation_multi_request_failed">Reservation request failed</string>
+
+    <string name="my_parking_reservation_empty">There is no reservations for specified date range</string>
+    <string name="my_parking_reservation_submitted">Submitted:</string>
+    <string name="my_parking_reservation_cancel_request">Cancel request</string>
+    <string name="my_parking_reservation_cancel_request_success">You successfully canceled your parking request</string>
+    <string name="my_parking_reservation_cancel_request_failure">Canceling parking reservation request failed</string>
+    <string name="my_parking_reservation_cancel_confirmation_title">Please confirm the cancellation of the parking spot reservation for %s</string>
+    <string name="my_parking_reservation_cancel_confirmation_accept">Yes, cancel!</string>
+    <string name="my_parking_reservation_cancel_confirmation_dismiss">No, go back.</string>
+
+    <string name="parking_reservation_item_from">From:</string>
+    <string name="parking_reservation_item_to">To:</string>
+    <string name="parking_reservation_item_requested_date">Requested date:</string>
+    <string name="parking_reservation_item_email">E-mail:</string>
+    <string name="parking_reservation_item_note">Note:</string>
+    <string name="parking_reservation_item_date">Date:</string>
+    <string name="parking_reservation_additional_notes_empty_state">There are no additional notes from the user</string>
+    <string name="parking_reservation_item_garage_level">Garage level:</string>
+    <string name="parking_reservation_item_parking_spot">Parking spot:</string>
+    <string name="parking_reservation_item_requested_by">Requested by:</string>
+    <string name="parking_reservation_item_additional_notes">Additional notes for admin:</string>
+    <string name="parking_reservation_item_approve_note">Approve note:</string>
+    <string name="parking_reservation_item_reject_reason">Reject reason:</string>
+    <string name="parking_reservation_item_cancel_reason">Cancel reason:</string>
+    <string name="parking_reservation_empty_state_error_title">No data found </string>
+    <string name="parking_reservation_empty_state_error_message">There are no requests in selected date range</string>
+    <string name="parking_reservation_date_range_error_start_date">Must be before To date</string>
+    <string name="parking_reservation_date_range_error_end_date">Must be after From date</string>
+    <string name="parking_reservation_future_date_error">Only future date reservations allowed</string>
+    <string name="parking_reservation_duplicate_reservation_error">Only one reservation per day is allowed</string>
+    <string name="parking_reservation_late_reservation_error">Reserve by 15:00 for tomorrow. Please contact the facility directly.</string>
+    <string name="parking_reservation_new_request_invalid_email_error">Invalid email format!</string>
+    <string name="parking_reservation_new_request_failure">Parking reservation request failed!</string>
+
+    <string name="parking_reservation_user_request_save">Save</string>
+
+    <string name="parking_reservation_status_approved_label">Approved</string>
+    <string name="parking_reservation_status_canceled_label">Canceled</string>
+    <string name="parking_reservation_status_rejected_label">Rejected</string>
+    <string name="parking_reservation_status_submitted_label">Submitted</string>
+
+    <string name="crew_management_form_title">Registered Users</string>
+    <string name="crew_management_form_email_title">E-mail:</string>
+    <string name="crew_management_form_role">Role:</string>
+    <string name="crew_management_form_garage_access">Permanent garage access:</string>
+    <string name="crew_management_form_invalid_email">Please provide a valid email</string>
+    <string name="crew_management_form_duplicated_email">User with this email already exists</string>
+    <string name="crew_management_form_storage_error">Storing user failed</string>
+    <string name="crew_management_form_add_success">You successfully added new user</string>
+    <string name="crew_management_form_add_edit">You successfully edited user</string>
+    <string name="crew_management_create_new_user">Create new user</string>
+    <string name="crew_management_edit_user_sheet_title">Edit user</string>
+    <string name="crew_management_create_user_sheet_title">Create user</string>
+
+    <string name="user_request_invalid_parking_coordinate">Please select a valid parking coordinate</string>
+    <string name="user_request_status_change_success">You successfully updated users parking request</string>
+    <string name="user_request_status_change_failure">User request status change failed</string>
+    <string name="user_request_garage_access_label">Garage access:</string>
+    <string name="user_request_garage_email_filter_search">Email</string>
+    <string name="slots_management_screen_title">Available garage levels</string>
+    <string name="slots_management_level_identifier">LEVEL</string>
+    <string name="slots_management_number_of_spots_identifier">Registered spots:</string>
+    <string name="slots_management_level_option_edit">Edit</string>
+    <string name="slots_management_level_option_delete">Delete</string>
+    <string name="slots_management_leading_spot_identifier_text">Spot:</string>
+    <string name="slots_management_parking_name_length_error">Selected name is too long</string>
+
+    <string name="garage_level_creator_screen_title">Level Creator</string>
+    <string name="garage_level_creator_step_identifier">Step:</string>
+    <string name="garage_level_creator_step_separator">/</string>
+    <string name="garage_level_creator_level_name_form_title">Level name:</string>
+    <string name="garage_level_creator_level_name_placeholder">Write level name here</string>
+    <string name="garage_level_creator_spots_placeholder">Provide at least one parking spot to continue</string>
+    <string name="garage_level_creator_spot_name_placeholder">Write spot name here</string>
+    <string name="garage_level_creator_spot_leading_identifier">Spot</string>
+
+    <string name="slots_management_empty_level_title">Garage level title should not be empty!</string>
+    <string name="slots_management_empty_parking_spots">Garage level should contain at least one parking spot!</string>
+    <string name="slots_management_empty_parking_spots_title">Parking spot title should not be empty!</string>
+    <string name="slots_management_request_add_success">Successfully added new garage level</string>
+    <string name="slots_management_request_edit_success">Successfully edited garage level</string>
+    <string name="slots_management_request_delete_success">You successfully deleted garage level %s!</string>
+    <string name="slots_management_request_delete_failure">Garage level deletion failed!</string>
+    <string name="slots_management_request_failed">Request failed</string>
+    <string name="slots_management_add_title">Add</string>
+    <string name="slots_management_edit_title">Edit</string>
+    <string name="slots_management_save_button">Save</string>
+    <string name="slots_management_cancel_button">Cancel</string>
+    <string name="slots_management_duplicated_spot_error">This spot already exists</string>
+    <string name="slots_management_duplicated_level_error">This level already exists</string>
+
+    <string name="user_role_administrator">Administrator</string>
+    <string name="user_role_manager">Manager</string>
+    <string name="user_role_user">User</string>
+
+    <string name="garage_level_creator_spots_placeholder">Provide at least one parking spot to continue</string>
+    <string name="garage_level_creator_spot_name_placeholder">Write spot name here</string>
+    <string name="garage_level_creator_spot_leading_identifier">Spot</string>
+    <string name="garage_level_creator_delete_level_question">Do you really want to delete garage level %s?</string>
+
+    <string name="email_templates_approved_label">Approved template</string>
+    <string name="email_templates_declined_label">Declined template</string>
+    <string name="email_templates_submitted_label">Submitted template</string>
+    <string name="email_templates_canceled_label">Canceled template</string>
+    <string name="email_templates_canceled_by_admin_label">Canceled by admin template</string>
+    <string name="email_templates_save_button">Save</string>
+    <string name="email_templates_fetching_error">Unable to fetch templates</string>
+    <string name="email_templates_saving_error">Unable to save templates</string>
+    <string name="email_title_reservation_updated">Parking Reservation Updated</string>
+    <string name="email_template_template_name">Template name:</string>
+
+    <string name="seat_reservation_dashboard_title">Seat Reservation Dashboard</string>
+    <string name="seat_reservation_timeline_dashboard_option_title">Timeline</string>
+    <string name="seat_reservation_seat_management_dashboard_option_title">Seat Management</string>
+    <string name="seat_reservation_timeline_dashboard_option_description">Reserve your seat; See who is also
+        coming</string>
+    <string name="seat_reservation_seat_management_dashboard_option_description">Manage amount of available seat
+        positions across multiple offices</string>
+    <string name="seat_reservation_reserve_seat_button">Reserve your seat</string>
+    <string name="seat_reservation_cancel_reservation_button">Cancel your reservation</string>
+    <string name="seat_reservation_weekend">Weekend</string>
+    <string name="seat_reservation_office_title">Office</string>
+    <string name="seat_reservation_seats_title">Seats</string>
+    <string name="seat_reservation_office_name_placeholder">Office name here</string>
+    <string name="seat_reservation_reserve_seat_button">Reserve your seat</string>
+    <string name="seat_reservation_seats_number_error">Provide valid number of seats</string>
+    <string name="seat_reservation_delete_office_title">Delete Office</string>
+    <string name="seat_reservation_delete_office_message">Do you really want to delete %s</string>
+    <string name="seat_reservation_success_delete_office_message">You successfully deleted office!</string>
+    <string name="seat_reservation_failure_delete_office_message">Deleting office failed!</string>
+    <string name="seat_reservation_success_add_office_message">You successfully added office!</string>
+    <string name="seat_reservation_failure_add_office_message">Adding office failed!</string>
+    <string name="seat_reservation_success_edit_office_message">You successfully edited office!</string>
+    <string name="seat_reservation_failure_edit_office_message">Editing office failed!</string>
+    <string name="seat_reservation_office_creation_error">Unable to create office</string>
+    <string name="seat_reservation_office_name_label">Office name</string>
+    <string name="seat_reservation_seats_placeholder">-</string>
+    <string name="seat_reservation_edit_office_form_title">Edit</string>
+    <string name="seat_reservation_office_title_duplication">Office already exists!</string>
+    <string name="seat_reservation_office_title_length_error">Title must be between 3 and 20 characters!</string>
+</resources>

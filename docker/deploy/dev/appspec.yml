@@ -1,0 +1,11 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/MarinJuricev/project_files_dev
+hooks:
+  ApplicationStart:
+    - location: deploy.sh
+      timeout: 3600
+      runas: root
+

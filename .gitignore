@@ -1,0 +1,41 @@
+*.iml
+.gradle
+**/build/
+xcuserdata
+!src/**/build/
+local.properties
+.idea
+.DS_Store
+captures
+.externalNativeBuild
+.cxx
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+**/xcshareddata/WorkspaceSettings.xcsettings
+# fastlane specific
+**/fastlane/report.xml
+**/fastlane/shared
+Package.resolved
+
+# deliver temporary files
+**/fastlane/Preview.html
+
+# snapshot generated screenshots
+**/fastlane/screenshots
+
+# scan temporary files
+**/fastlane/test_output
+
+shared/karma.config.d/*
+shared/webpack.config.d/*
+web/karma.config.d/*
+web/webpack.config.d/*
+/.build/workspace-state.json
+# Ignore secrets
+credentials.json
+.vscode/settings.json
+terraform/.terraform.lock.hcl
+terraform/.terraform/*

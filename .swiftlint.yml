@@ -1,0 +1,23 @@
+disabled_rules:
+  - trailing_whitespace
+  - orphaned_doc_comment
+  - inclusive_language
+  - class_delegate_protocol
+  - large_tuple
+
+identifier_name:
+  excluded:
+    - id
+    - to
+
+cyclomatic_complexity:
+  ignores_case_statements: true
+
+line_length:
+  - 192 # warning
+  - 256 # error
+
+nesting:
+  type_level:
+    warning: 4
+    error: 6

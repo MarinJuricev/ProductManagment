@@ -1,0 +1,98 @@
+name: iOS deploy to Testflight
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'iosApp/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'iosApp/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LC_ALL: en_US.UTF-8
+  LANG: en_US.UTF-8
+  IOS_CI: true
+  UB_TOOLS_URL: ${{ secrets.UB_TOOLS_URL }}
+  MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+  MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+  MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
+  FL_UNLOCK_KEYCHAIN_PASSWORD: ${{ secrets.FL_UNLOCK_KEYCHAIN_PASSWORD }}
+  GOOGLE_APPLICATION_CREDENTIALS_BASE64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_BASE64 }}
+  SPM_PACKAGES_DIR: spm
+
+
+jobs:
+  lint:
+    name: Lint
+    outputs:
+      runner_name: ${{ steps.register_runner.outputs.runner_name }}
+    runs-on: [self-hosted, macos]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Bundler
+        run: |
+          bundle install
+      - name: SwiftLint
+        run: |
+          bundle exec fastlane lint diff_only:true
+      - name: Register runner
+        id: register_runner
+        run: echo "runner_name=${{runner.name}}" >> $GITHUB_OUTPUT
+
+  generate:
+    name: Generate
+    runs-on: ${{ needs.lint.outputs.runner_name }}
+    needs: [lint]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Fastlane generate
+        run: |
+          bundle exec fastlane generate skip_certs:true
+
+  archive:
+    name: Archive
+    runs-on: ${{ needs.lint.outputs.runner_name }}
+    needs: [lint, generate]
+    steps:
+      - name: Fastlane archive AppStore
+        run: |
+          bundle exec fastlane run unlock_keychain
+          bundle exec fastlane archive method:app-store scheme:Inventory-Production
+
+  testflight:
+    name: Testflight deploy
+    if: startsWith(github.ref, 'refs/heads/main') && github.event_name == 'push'
+    runs-on: ${{ needs.lint.outputs.runner_name }}
+    needs: [lint, generate, archive]
+    steps:
+      - name: Upload build to TestFlight
+        run: |
+          fastlane upload_testflight scheme:Inventory-Production
+      - uses: actions/upload-artifact@v3
+        with:
+          name: archive
+          path: build
+          retention-days: 5
+
+  debug_symbols:
+    name: Debug symbols
+    runs-on: ${{ needs.lint.outputs.runner_name }}
+    needs: [lint, generate, archive, testflight]
+    steps:
+      - name: Upload debug symbols to Crashlytics
+        run: |
+          fastlane upload_debug_symbols

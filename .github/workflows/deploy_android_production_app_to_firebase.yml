@@ -1,0 +1,35 @@
+name: Deploy Android Production App to Firebase
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  distribute_dev_app_for_test:
+    runs-on: [ self-hosted, android ]
+    env:
+      ANDROID_INVENTORY_STORE_PASSWORD: ${{ secrets.ANDROID_INVENTORY_STORE_PASSWORD }}
+      ANDROID_INVENTORY_KEY_PASSWORD: ${{ secrets.ANDROID_INVENTORY_KEY_PASSWORD }}
+      GOOGLE_APPLICATION_CREDENTIALS_BASE64: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_BASE64 }}'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Configure GIT
+        run: |
+          git config --local user.email "github-actions@users.noreply.github.com"
+          git config --local user.name "github-actions"
+      - name: Add credentials
+        run: |
+          echo $GOOGLE_APPLICATION_CREDENTIALS_BASE64 | base64 --decode > credentials.json
+      - name: Save credentials into environment variables
+        run: |
+          echo "GOOGLE_APPLICATION_CREDENTIALS=./credentials.json" >> $GITHUB_ENV
+      - name: Distribute dev app
+        run: |
+          bundle install
+          bundle exec fastlane deployProductionAppToFirebase

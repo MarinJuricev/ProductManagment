@@ -1,0 +1,201 @@
+[versions]
+agp = "8.2.2"
+android-compileSdk = "34"
+android-minSdk = "24"
+android-targetSdk = "34"
+androidx-activityCompose = "1.8.2"
+androidx-appcompat = "1.6.1"
+androidx-core-ktx = "1.12.0"
+androidx-material = "1.11.0"
+androidx-test-junit = "1.1.5"
+arrow = "1.2.4"
+coilCompose = "2.6.0"
+compose = "1.6.5"
+compose-plugin = "1.6.1"
+androidCredentials = "1.2.0"
+androidFirebaseUiAuth = "7.2.0"
+detekt = "1.23.6"
+detektFormatting = "1.23.6"
+detektCompose = "0.3.13"
+gitLiveFirebase = "1.12.0"
+firebaseCrashPlugin = "2.9.9"
+androidGoogleId = "1.1.0"
+junit = "4.13.2"
+kermit = "2.0.0-RC4"
+keyvalue = "1.1.1"
+koin = "3.6.0-Beta2"
+kotlin = "1.9.23"
+kotlinx-coroutines = "1.8.0"
+kotlinx-datetime = "0.6.0"
+kotlinx-serialization = "1.6.2"
+ktlintCli = "1.2.1"
+skie = "0.6.2"
+voyager = "1.1.0-alpha04"
+kobweb = "0.17.2"
+googleServices = "4.4.1"
+crashlytics = "2.9.9"
+firebaseNpm = "10.11.0"
+kmmBridge = "0.5.5"
+mokoResources = "0.24.0-beta-3"
+mokoGraphics = "0.9.0"
+kotlinBootstrap = "0.1.1"
+swiftKtLib = "0.5.1"
+credentials = "1.2.2"
+uuid = "0.8.4"
+richEditor = "1.0.0-rc05"
+espressoCore = "3.6.1"
+ksoup = "0.3.1"
+buildKonfig = "0.15.1"
+
+ktor = "2.3.12"
+logback = "1.4.14"
+postgresql = "42.5.1"
+h2-version = "2.2.224"
+firebaseAdmin = "9.3.0"
+
+[libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
+androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "androidCredentials" }
+androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "androidCredentials" }
+androidx-material = { group = "com.google.android.material", name = "material", version.ref = "androidx-material" }
+androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-junit" }
+arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+arrow-coroutines = { group = "io.arrow-kt", name = "arrow-fx-coroutines", version.ref = "arrow" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "compose" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose" }
+detekt-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektCompose" }
+detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektFormatting" }
+firebase-auth = { group = "dev.gitlive", name = "firebase-auth", version.ref = "gitLiveFirebase" }
+firebase-crashlytics = { group = "dev.gitlive", name = "firebase-crashlytics", version.ref = "gitLiveFirebase" }
+firebase-firestore = { group = "dev.gitlive", name = "firebase-firestore", version.ref = "gitLiveFirebase" }
+googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "androidGoogleId" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+kermit = { group = "co.touchlab", name = "kermit", version.ref = "kermit" }
+keyvalue = { group = "com.russhwolf", name = "multiplatform-settings", version.ref = "keyvalue" }
+kobweb-api = { module = "com.varabyte.kobweb:kobweb-api", version.ref = "kobweb" }
+kobweb-core = { module = "com.varabyte.kobweb:kobweb-core ", version.ref = "kobweb" }
+kobweb-silk = { module = "com.varabyte.kobweb:kobweb-silk", version.ref = "kobweb" }
+koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlin" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+ktlint-cli = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlintCli" }
+silk-foundation = { module = "com.varabyte.kobweb:silk-foundation", version.ref = "kobweb" }
+silk-icons-fa = { module = "com.varabyte.kobwebx:silk-icons-fa", version.ref = "kobweb" }
+silk-icons-mdi = { module = "com.varabyte.kobwebx:silk-icons-mdi", version.ref = "kobweb" }
+skie-annotations = { group = "co.touchlab.skie", name = "configuration-annotations", version.ref = "skie" }
+voyager-koin = { group = "cafe.adriel.voyager", name = "voyager-koin", version.ref = "voyager" }
+voyager-navigator = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
+voyager-tab-navigator = { group = "cafe.adriel.voyager", name = "voyager-tab-navigator", version.ref = "voyager" }
+voyager-screenmodel = { group = "cafe.adriel.voyager", name = "voyager-screenmodel", version.ref = "voyager" }
+voyager-botom-sheet-navigator = { group = "cafe.adriel.voyager", name = "voyager-bottom-sheet-navigator", version.ref = "voyager" }
+mokoResources-generator = { module = "dev.icerock.moko:resources-generator", version.ref = "mokoResources" }
+mokoResources-core = { module = "dev.icerock.moko:resources", version.ref = "mokoResources" }
+mokoResources-graphics = { group = "dev.icerock.moko", name = "graphics", version.ref = "mokoResources" }
+kotlinBootstrap = { group = "com.github.stevdza-san", name = "KotlinBootstrap", version.ref = "kotlinBootstrap" }
+credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
+uuid = { group = "com.benasher44", name = "uuid", version.ref = "uuid" }
+richeditor-compose = { group = "com.mohamedrejeb.richeditor", name = "richeditor-compose", version.ref = "richEditor" }
+ksoup = { group = "com.mohamedrejeb.ksoup", name = "ksoup-html", version.ref = "ksoup" }
+
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+
+# shared ktor dependencies
+ktor-bom = { group = "io.ktor", name = "ktor-bom", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json" }
+
+# ktor client specific dependencies
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core" }
+ktor-auth = { group = "io.ktor", name = "ktor-client-auth" }
+ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin" }
+ktor-client-js = { group = "io.ktor", name = "ktor-client-js" }
+ktor-client-encoding = { group = "io.ktor", name = "ktor-client-encoding" }
+ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging" }
+ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation" }
+ktor-client-resources = { group = "io.ktor", name = "ktor-client-resources" }
+
+# ktor server specific dependencies
+ktor-server-core = { group = "io.ktor", name = "ktor-server-core-jvm" }
+ktor-server-content-negotiation = { group = "io.ktor", name = "ktor-server-content-negotiation-jvm" }
+ktor-server-call-logging = { group = "io.ktor", name = "ktor-server-call-logging-jvm" }
+ktor-server-default-headers = { group = "io.ktor", name = "ktor-server-default-headers-jvm" }
+ktor-server-cors = { group = "io.ktor", name = "ktor-server-cors-jvm" }
+ktor-server-resources = { group = "io.ktor", name = "ktor-server-resources-jvm" }
+ktor-server-auth = { group = "io.ktor", name = "ktor-server-auth-jvm" }
+ktor-server-netty = { group = "io.ktor", name = "ktor-server-netty-jvm" }
+ktor-server-config-yaml = { group = "io.ktor", name = "ktor-server-config-yaml" }
+ktor-server-status-pages = { group = "io.ktor", name = "ktor-server-status-pages" }
+
+# ktor server related dependencies
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
+koin-logger = { module = "io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
+h2 = { module = "com.h2database:h2", version.ref = "h2-version" }
+firebase-admin = { module = "com.google.firebase:firebase-admin", version.ref = "firebaseAdmin" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+skie = { id = "co.touchlab.skie", version.ref = "skie" }
+kobwebApplication = { id = "com.varabyte.kobweb.application", version.ref = "kobweb" }
+googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+firebaseCrashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashPlugin" }
+kmmbridge = { id = "co.touchlab.kmmbridge", version.ref = "kmmBridge" }
+mokoResources = { id = "dev.icerock.mobile.multiplatform-resources" }
+buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
+
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+
+inventory-versioning = { id = "inventory.versioning", version = "unspecified" }
+
+[bundles]
+firebase = [
+    "firebase-firestore",
+    "firebase-auth",
+]
+
+voyager = [
+    "voyager-koin",
+    "voyager-navigator",
+    "voyager-screenmodel",
+    "voyager-tab-navigator",
+    "voyager-botom-sheet-navigator",
+]
+
+ktor-client = [
+    "ktor-client-core",
+    "ktor-auth",
+    "ktor-client-encoding",
+    "ktor-client-logging",
+    "ktor-serialization-kotlinx-json",
+    "ktor-client-content-negotiation",
+    "ktor-client-resources",
+]
+
+ktor-server = [
+    "ktor-server-core",
+    "ktor-server-content-negotiation",
+    "ktor-server-call-logging",
+    "ktor-server-default-headers",
+    "ktor-server-cors",
+    "ktor-server-resources",
+    "ktor-server-auth",
+    "ktor-server-netty",
+    "ktor-server-config-yaml",
+    "ktor-serialization-kotlinx-json",
+    "ktor-server-status-pages",
+]

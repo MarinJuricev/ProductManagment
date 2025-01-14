@@ -1,0 +1,61 @@
+name: Web - QA deploy
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_and_deploy:
+    runs-on: [ self-hosted, android ]
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Configure version
+        id: version
+        run: |
+          ./gradlew web:incrementBuild
+          version=$(./gradlew web:printVersionName --quiet)
+
+          echo "version=$version" >> $GITHUB_OUTPUT
+
+      - name: Export web app
+        run: |
+          echo "Kobweb version"
+          kobweb version
+          
+          ./gradlew kobwebExport -PkobwebReuseServer=false -PkobwebEnvironment=DEV -PkobwebRunLayout=KOBWEB -PkobwebBuildTarget=RELEASE -PkobwebExportLayout=STATIC --stacktrace
+
+      - name: Configure app directory
+        run: |
+          ./gradlew kobwebStop 
+          
+          cd ./web/app
+          
+          git restore firebase.json .firebaserc .gitignore
+          
+          mkdir -p public
+          cp index.html public/
+
+      - name: Deploy live app to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MarinJuricev_INVENTORY_APP }}
+          channelId: ${{ steps.version.outputs.version }}
+          expires: 30d
+          projectId: MarinJuricev-inventory-app
+          entryPoint: ./web/app
+
+      - name: Commit and push version bump
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          cd ./release
+          
+          git add version_web.properties
+          git commit -m "Bump web version to ${{ steps.version.outputs.version }}"
+          git push -u origin develop

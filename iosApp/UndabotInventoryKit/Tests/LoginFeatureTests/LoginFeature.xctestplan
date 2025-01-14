@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "5351382E-F04E-40C6-9CC0-A8E6F9962F13",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "LoginFeatureTests",
+        "name" : "LoginFeatureTests"
+      }
+    }
+  ],
+  "version" : 1
+}

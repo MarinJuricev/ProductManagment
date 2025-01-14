@@ -1,0 +1,2 @@
+# Plugin used to deploy test apps to firebase distribution
+gem 'fastlane-plugin-firebase_app_distribution'

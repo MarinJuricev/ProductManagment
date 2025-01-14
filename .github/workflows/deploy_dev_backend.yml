@@ -1,0 +1,124 @@
+name: Development Backend - Build and Deploy
+
+on:
+  push:
+    branches:
+      - develop
+      - bugfix/fix-be-env
+
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: read
+
+env:
+  BUILD_SHA: ${{ github.sha }}
+
+jobs:
+  start-runner:
+    uses: MarinJuricev/ci/.github/workflows/startEc2.yml@dennree-docs
+    secrets: inherit
+
+  pr-info:
+    needs: start-runner
+    runs-on: ${{ needs.start-runner.outputs.label }}
+    steps:
+      - uses: 8BitJonny/gh-get-current-pr@3.0.0
+        id: PR
+    outputs:
+        labels: ${{ steps.PR.outputs.pr_labels }}
+
+  build_docker_image:
+    needs: [ start-runner, pr-info ]
+    runs-on: ${{ needs.start-runner.outputs.label }}
+    if: contains(needs.pr-info.outputs.labels, 'server') || contains(needs.pr-info.outputs.labels, 'common') || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: "arn:aws:iam::198310435290:role/github-actions-role"
+          aws-region: eu-central-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Retrieve secret and create .env
+        shell: bash
+        env:
+          FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_CREDENTIALS }}
+          EMAIL_SERVICE_API_KEY: ${{ secrets.EMAIL_SERVICE_API_KEY }}
+        run: |
+          # fetch dotenv values from aws secret manager
+          echo "FIREBASE_CREDENTIALS=${{ secrets.FIREBASE_CREDENTIALS }}" >> .env.local
+          echo "EMAIL_SERVICE_API_KEY=${{ secrets.EMAIL_SERVICE_API_KEY }}" >> .env.local
+
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          docker build -f docker/Dockerfile -t $ECR_REGISTRY/product-inventory-kmp-backend:backend-dev .
+          #move this to aws secrets
+          #echo "${{ secrets.ENV_STAGE_PREVIEW }}" > .env
+          docker push $ECR_REGISTRY/product-inventory-kmp-backend:backend-dev
+
+  deploy:
+    needs: [ start-runner, pr-info, build_docker_image ]
+    runs-on: ${{ needs.start-runner.outputs.label }}
+    if: contains(needs.pr-info.outputs.labels, 'server') || contains(needs.pr-info.outputs.labels, 'common') || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: "arn:aws:iam::198310435290:role/github-actions-role"
+          aws-region: eu-central-1
+
+      - name: "Upload deployment revision to AWS S3 bucket"
+        run: |
+          aws deploy push \
+            --application-name product-inventory-kmp \
+            --description "Dev deployment revision for MarinJuricev web" \
+            --s3-location s3://product-inventory-kmp-codedeploy-bucket/dev-revision-${BUILD_SHA::7}.zip \
+            --source docker/deploy/dev
+
+      - name: "Create deployment on AWS CodeDeploy"
+        run: |
+          # Create the deployment and capture the deployment ID
+          DEPLOYMENT_ID=$(aws deploy create-deployment \
+            --application-name product-inventory-kmp \
+            --deployment-group-name product-inventory-kmp-deployment-group \
+            --description "Deployment for build SHA: $BUILD_SHA" \
+            --s3-location bucket=product-inventory-kmp-codedeploy-bucket,key=dev-revision-${GITHUB_SHA::7}.zip,bundleType=zip \
+            --file-exists-behavior OVERWRITE \
+            --query "deploymentId" --output text)
+
+          echo "Deployment ID: $DEPLOYMENT_ID"
+
+          # Wait for the deployment to complete
+          aws deploy wait deployment-successful --deployment-id $DEPLOYMENT_ID
+
+          # Check the final status of the deployment
+          DEPLOYMENT_STATUS=$(aws deploy get-deployment --deployment-id $DEPLOYMENT_ID --query "deploymentInfo.status" --output text)
+
+          if [[ "$DEPLOYMENT_STATUS" != "Succeeded" ]]; then
+            echo "Deployment failed with status: $DEPLOYMENT_STATUS"
+            exit 1
+          else
+            echo "Deployment succeeded"
+          fi
+
+  stop-runner:
+    name: Stop self-hosted EC2 runner
+    needs: [ start-runner, pr-info, build_docker_image, deploy ]
+    if: ${{ always() }}
+    uses: MarinJuricev/ci/.github/workflows/stopEc2.yml@dennree-docs
+    with:
+      ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
+      label: ${{ needs.start-runner.outputs.label }}
+    secrets: inherit

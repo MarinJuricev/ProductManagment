@@ -1,0 +1,40 @@
+name: Web - Prod deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: [ self-hosted, android ]
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Export web app
+        run: |
+          echo "Kobweb version"
+          kobweb version
+          
+          ./gradlew kobwebExport -PkobwebReuseServer=false -PkobwebEnvironment=PROD -PkobwebRunLayout=KOBWEB -PkobwebBuildTarget=RELEASE -PkobwebExportLayout=STATIC --stacktrace
+
+      - name: Configure app directory
+        run: |
+          ./gradlew kobwebStop 
+          
+          cd ./web/app
+          
+          git restore firebase.json .firebaserc .gitignore
+          
+          mkdir -p public
+          cp index.html public/
+
+      - name: Deploy live app to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MarinJuricev_INVENTORY_APP }}
+          channelId: live
+          projectId: MarinJuricev-inventory-app
+          entryPoint: ./web/app

@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "AA07F1C8-AE2D-4509-80B1-883AF4A7FBCF",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "ParkingReservationFeatureTests",
+        "name" : "ParkingReservationFeatureTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -1,0 +1,48 @@
+name: Web - Dev deploy on PR
+
+on:
+  pull_request:
+    types: [ labeled, unlabeled, reopened, synchronize ]
+
+permissions:
+  checks: write
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_and_preview:
+    if: ${{ (github.event.pull_request.head.repo.full_name == github.repository) && (contains(github.event.pull_request.labels.*.name, 'web')) }}
+    runs-on: [ self-hosted, android ]
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Export web app
+        run: |
+          echo "Kobweb version"
+          kobweb version
+          
+          ./gradlew kobwebExport -PkobwebReuseServer=false -PkobwebEnvironment=DEV -PkobwebRunLayout=KOBWEB -PkobwebBuildTarget=DEBUG -PkobwebExportLayout=STATIC --stacktrace
+
+      - name: Configure app directory
+        run: |
+          ./gradlew kobwebStop 
+          
+          cd ./web/app
+         
+          git restore firebase.json .firebaserc .gitignore
+          
+          mkdir -p public
+          cp index.html public/
+
+      - name: Deploy preview app to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MarinJuricev_INVENTORY_APP }}
+          projectId: MarinJuricev-inventory-app
+          expires: 30d
+          entryPoint: ./web/app

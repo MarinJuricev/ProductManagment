@@ -1,0 +1,110 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+require 'yaml'
+import './config.rb'
+import './pipeline.rb'
+
+if ENV["IOS_CI"]
+  if ENV["UB_TOOLS_URL"].nil?
+    use_ssh = (not sh("git remote -v").include?("https://"))
+
+    tools_path = ENV["UB_TOOLS_PATH"]
+    tools_path = "product/product-ios-tooling" if tools_path.nil?
+
+    git_url = "https://github.com/#{tools_path}"
+    git_url = "git@github.com:#{tools_path}" if use_ssh
+  else
+    git_url = ENV["UB_TOOLS_URL"]
+  end
+
+  import_from_git(url: git_url, cache_path: "shared")
+
+  override_lane :configure do |options|
+    ENV["UB_PROJECT"] ||= "iosApp/iosApp.xcodeproj"
+    ENV["UB_SCHEME"] ||= "Inventory-Dev"
+    ENV["UB_SOURCE_DIRECTORY"] ||= "iosApp"
+
+    app_store_connect_api_key(
+      key_id: "5X56XNTWFK",
+      issuer_id: "69a6de70-54a1-47e3-e053-5b8c7c11a4d1",
+      key_filepath: "fastlane/AuthKey_5X56XNTWFK.p8",
+    )
+  end
+end
+
+lane :deployProductionAppToFirebase do
+ pipeline(
+      #define environment
+      environment: Config::ENVIRONMENT_PROD,
+      #constant defines if build needs to be signed by release.keystore
+      build_type: Config::BUILD_TYPE_RELEASE,
+      #assemble will build apk and bundle aab
+      build_task: Config::BUILD_TASK_ASSEMBLE,
+      #to upload apks to firebase distribution
+      distribute_by_firebase_distribution: true,
+      #firebase testers
+      testers_group: Config::TESTER_GROUP_LIVE_USERS,
+      #Firebase app id
+      firebase_app_id: Config::FIREBASE_APP_ID,
+      #perform code quality check
+      qa: false,
+      #run unit tests
+      unit_tests: false,
+      #send message to slack
+      slack: true,
+      version_bump: Config::BUMP_BUILD,
+      vcs: true,
+    )
+end
+
+lane :deployDevelopmentAppToFirebase do
+ pipeline(
+      #define environment
+      environment: Config::ENVIRONMENT_DEV,
+      #constant defines if build needs to be signed by release.keystore
+      build_type: Config::BUILD_TYPE_RELEASE,
+      #assemble will build apk and bundle aab
+      build_task: Config::BUILD_TASK_ASSEMBLE,
+      #to upload apks to firebase distribution
+      distribute_by_firebase_distribution: true,
+      #firebase testers
+      testers_group: Config::TESTER_GROUP_INTERNAL,
+      #Firebase app id
+      firebase_app_id: Config::FIREBASE_DEV_APP_ID,
+      #perform code quality check
+      qa: false,
+      #run unit tests
+      unit_tests: false,
+      #send message to slack
+      slack: true,
+      version_bump: Config::BUMP_BUILD,
+      vcs: true,
+    )
+end
+
+def get_firebase_app_id(options)
+  plist_file = get_google_plist_file(options)
+  plist_path = File.join(Dir.pwd, "..", "iosApp", plist_file)
+
+  plist = Xcodeproj::Plist.read_from_path(plist_path)
+  plist["GOOGLE_APP_ID"]
+end
+
+lane :upload_debug_symbols do |options|
+  plist_file = get_google_plist_file(options)
+  plist_path = File.join(Dir.pwd, "..", "iosApp", plist_file)
+
+  upload_symbols_to_crashlytics(gsp_path: plist_path, binary_path: './scripts/upload-symbols')
+end

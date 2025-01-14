@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <plural name="seat_reservation_remaining_seats">
+        <item quantity="zero">No seats remaining</item>
+        <item quantity="one">%d seat remaining</item>
+        <item quantity="other">%d seats remaining</item>
+    </plural>
+</resources>

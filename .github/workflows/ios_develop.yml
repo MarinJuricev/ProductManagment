@@ -1,0 +1,96 @@
+name: iOS deploy to Firebase
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'iosApp/**'
+  pull_request:
+    branches:
+      - develop
+    paths:
+      - 'iosApp/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LC_ALL: en_US.UTF-8
+  LANG: en_US.UTF-8
+  UB_TOOLS_URL: ${{ secrets.UB_TOOLS_URL }}
+  IOS_CI: true
+  MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+  MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+  MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
+  FL_UNLOCK_KEYCHAIN_PASSWORD: ${{ secrets.FL_UNLOCK_KEYCHAIN_PASSWORD }}
+  GOOGLE_APPLICATION_CREDENTIALS_BASE64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_BASE64 }}
+  SPM_PACKAGES_DIR: spm
+  FIREBASE_GROUPS: "MarinJuricevqa"
+
+jobs:
+  lint:
+    name: Lint
+    outputs:
+      runner_name: ${{ steps.register_runner.outputs.runner_name }}
+    runs-on: [self-hosted, macos]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Bundler
+        run: |
+          bundle install
+      - name: SwiftLint
+        run: |
+          bundle exec fastlane lint diff_only:true
+      - name: Register runner
+        id: register_runner
+        run: echo "runner_name=${{runner.name}}" >> $GITHUB_OUTPUT
+
+  generate:
+    name: Generate
+    runs-on: ${{ needs.lint.outputs.runner_name }}
+    needs: [lint]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Fastlane generate
+        run: |
+          bundle exec fastlane generate skip_certs:true
+
+  archive:
+    name: Archive
+    runs-on: ${{ needs.lint.outputs.runner_name }}
+    needs: [lint, generate]
+    steps:
+      - name: Fastlane archive AppStore
+        run: |
+          bundle exec fastlane run unlock_keychain
+          bundle exec fastlane archive
+
+  firebase-dev:
+    name: Firebase dev deploy
+    if: startsWith(github.ref, 'refs/heads/develop') && github.event_name == 'push'
+    runs-on: ${{ needs.lint.outputs.runner_name }}
+    needs: [lint, generate, archive]
+    steps:
+      - name: Add Firebase App Distribution credentials file
+        run: |
+          echo $GOOGLE_APPLICATION_CREDENTIALS_BASE64 | base64 --decode > credentials.json
+      - name: Save Firebase App Distribution credentials into environment variables
+        run: |
+          echo "GOOGLE_APPLICATION_CREDENTIALS=../credentials.json" >> $GITHUB_ENV
+      - name: Upload dev build to Firebase
+        run: |
+          fastlane upload_firebase
+      - uses: actions/upload-artifact@v3
+        with:
+          name: archive
+          path: build
+          retention-days: 5
+
